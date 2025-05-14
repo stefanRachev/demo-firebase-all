@@ -2,7 +2,7 @@ import Header from './components/Header'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+
 
   return (
     <div className='min-h-screen flex flex-col bg-gray-100'>
