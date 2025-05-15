@@ -32,7 +32,7 @@ const Header = () => {
               }
               onClick={() => setMenuOpen(false)}
             >
-              Начало
+              Home
             </NavLink>
 
             <NavLink
@@ -42,7 +42,7 @@ const Header = () => {
               }
               onClick={() => setMenuOpen(false)}
             >
-              Коментари
+              Comments
             </NavLink>
             <NavLink
               to="/register"
@@ -51,7 +51,7 @@ const Header = () => {
               }
               onClick={() => setMenuOpen(false)}
             >
-              Регистрация
+              Register
             </NavLink>
             <NavLink
               to="/login"
@@ -60,7 +60,7 @@ const Header = () => {
               }
               onClick={() => setMenuOpen(false)}
             >
-              Вход
+              Login
             </NavLink>
           </div>
         </nav>
