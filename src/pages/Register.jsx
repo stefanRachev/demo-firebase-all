@@ -1,10 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
-
-const api_url = import.meta.env.VITE_API_URL;
+import { useAuth } from "../context/useAuth";
 
 const Register = () => {
+  const { register } = useAuth(); 
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -14,12 +13,10 @@ const Register = () => {
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const navigate = useNavigate()
-
+  const navigate = useNavigate();
 
   const handleChangeForm = (e) => {
     const { name, value } = e.target;
-    
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
@@ -30,56 +27,40 @@ const Register = () => {
     const { username, email, password, repeatPassword } = formData;
 
     if (!username.trim() || !email.trim() || !password.trim()) {
-      setError("All fields are require!");
+      setError("All fields are required!");
       setTimeout(() => setError(""), 3000);
       setIsSubmitting(false);
       return;
     }
     if (password !== repeatPassword) {
-      setError("Password do not match!");
+      setError("Passwords do not match!");
       setTimeout(() => setError(""), 3000);
       setIsSubmitting(false);
       return;
     }
-
     if (!email.includes("@")) {
-      setError("Enter valid email!");
+      setError("Enter a valid email!");
       setTimeout(() => setError(""), 3000);
       setIsSubmitting(false);
       return;
     }
 
     try {
-      const response = await fetch(`${api_url}/api/users/register`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ username, email, password }),
-      });
 
-      const data = await response.json();
+      await register(email, password);
 
-      if (!response.ok) {
-        setIsSubmitting(false);
-        throw new Error(data.message || "Register failed");
-      }
-
-    
-      login(data.user);
       setError("");
-
       setFormData({
         username: "",
         email: "",
         password: "",
         repeatPassword: "",
       });
-      
-      navigate("/")
+
+      navigate("/");
     } catch (error) {
       setError(error.message);
-      console.error("Register  error", error);
+      console.error("Firebase register error:", error);
     } finally {
       setIsSubmitting(false);
     }
