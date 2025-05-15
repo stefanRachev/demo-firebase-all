@@ -14,7 +14,7 @@ const Header = () => {
       console.log("User status changed:", currentUser);
     });
 
-    return () => unsubscribe(); // cleanup
+    return () => unsubscribe(); 
   }, [auth]);
 
   const handleLogout = async () => {
