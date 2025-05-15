@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
-const api_url = import.meta.env.VITE_API_URL;
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../firebase"; 
+import { useAuth } from "../context/useAuth"; 
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -13,11 +14,10 @@ const Login = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const navigate = useNavigate();
-
+  const { login } = useAuth(); 
 
   const handleChangeForm = (e) => {
     const { name, value } = e.target;
-
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
@@ -28,47 +28,34 @@ const Login = () => {
     const { email, password } = formData;
 
     if (!email.trim() || !password.trim()) {
-      setError("All fields are require!");
+      setError("All fields are required!");
       setTimeout(() => setError(""), 3000);
       setIsSubmitting(false);
       return;
     }
 
     if (!email.includes("@")) {
-      setError("Enter valid email!");
+      setError("Enter a valid email!");
       setTimeout(() => setError(""), 3000);
       setIsSubmitting(false);
       return;
     }
 
     try {
-      const response = await fetch(`${api_url}/api/users/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const firebaseUser = userCredential.user;
+
+      
+      login({
+        email: firebaseUser.email,
+        uid: firebaseUser.uid,
       });
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        setIsSubmitting(false);
-        throw new Error(data.message || "Login failed");
-      }
-
-      login(data.user);
-      setError("");
-
-      setFormData({
-        email: "",
-        password: "",
-      });
-
+      setFormData({ email: "", password: "" });
       navigate("/");
     } catch (error) {
-      setError(error.message);
-      console.error("Login  error", error);
+      console.error("Firebase login error:", error.message);
+      setError("Invalid credentials or account does not exist.");
     } finally {
       setIsSubmitting(false);
     }
@@ -107,19 +94,23 @@ const Login = () => {
             className="border rounded w-full p-2"
           />
         </div>
-        <button className="bg-blue-500 text-white p-2 px-4 mx-auto rounded   hover:bg-blue-700">
+        <button
+          className="bg-blue-500 text-white p-2 px-4 mx-auto rounded hover:bg-blue-700"
+          disabled={isSubmitting}
+        >
           {isSubmitting ? "Logging in..." : "Login"}
         </button>
       </form>
-        <div className="w-full flex flex-col p-2 mx-auto gap-2">
-          <p className="text-center">Don't have a registration?</p>
-          <Link
-            to="/register"
-            className="text-center rounded mx-auto p-2 underline hover:bg-blue-200"
-          >
-            Register
-          </Link>
-        </div>
+
+      <div className="w-full flex flex-col p-2 mx-auto gap-2">
+        <p className="text-center">Don't have a registration?</p>
+        <Link
+          to="/register"
+          className="text-center rounded mx-auto p-2 underline hover:bg-blue-200"
+        >
+          Register
+        </Link>
+      </div>
     </div>
   );
 };
