@@ -44,6 +44,8 @@ const Login = () => {
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const firebaseUser = userCredential.user;
+      console.log("firebaseUser:",firebaseUser);
+      
 
       
       login({
