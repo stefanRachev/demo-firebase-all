@@ -1,8 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../firebase/firebase"; 
-import { useAuth } from "../context/useAuth"; 
+import { useAuth } from "../context/useAuth";
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -14,7 +12,7 @@ const Login = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const navigate = useNavigate();
-  const { login } = useAuth(); 
+  const { login } = useAuth();
 
   const handleChangeForm = (e) => {
     const { name, value } = e.target;
@@ -24,40 +22,37 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setError("");
 
     const { email, password } = formData;
 
     if (!email.trim() || !password.trim()) {
       setError("All fields are required!");
-      setTimeout(() => setError(""), 3000);
       setIsSubmitting(false);
       return;
     }
 
     if (!email.includes("@")) {
       setError("Enter a valid email!");
-      setTimeout(() => setError(""), 3000);
       setIsSubmitting(false);
       return;
     }
 
     try {
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      const firebaseUser = userCredential.user;
-      console.log("firebaseUser:",firebaseUser);
-      
-
-      
-      login({
-        email: firebaseUser.email,
-        uid: firebaseUser.uid,
-      });
+      const userCredential = await login(email, password);
+      console.log("Logged in user:", userCredential.user);
 
       setFormData({ email: "", password: "" });
       navigate("/");
     } catch (error) {
-      console.error("Firebase login error:", error.message);
-      setError("Invalid credentials or account does not exist.");
+      console.error("Login error:", error.code);
+      if (error.code === "auth/user-not-found") {
+        setError("User not found.");
+      } else if (error.code === "auth/invalid-credential") {
+        setError("Invalid credentials provided.");
+      } else {
+        setError("Login failed. Please try again.");
+      }
     } finally {
       setIsSubmitting(false);
     }
