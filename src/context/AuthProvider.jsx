@@ -8,23 +8,40 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null)
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+      const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
       setUser(firebaseUser);
     });
     return () => unsubscribe();
   }, []);
 
-  const register = (email, password) => {
-    return createUserWithEmailAndPassword(auth, email, password);
+  const register = async (email, password) => {
+    try {
+      const result = await createUserWithEmailAndPassword(auth, email, password);
+      return result;
+    } catch (error) {
+      console.error("Registration error:", error);
+      throw error; 
+    }
   };
-
-  const login = (email, password) => {
-    return signInWithEmailAndPassword(auth, email, password);
+  
+  const login = async (email, password) => {
+    try {
+      const result = await signInWithEmailAndPassword(auth, email, password);
+      return result;
+    } catch (error) {
+      console.error("Login error:", error);
+      throw error;
+    }
   };
-
-  const logout = () => {
-    signOut(auth);
-    setUser(null);
+  
+  const logout = async () => {
+    try {
+      await signOut(auth);
+      setUser(null);
+    } catch (error) {
+      console.error("Logout error:", error);
+      throw error;
+    }
   };
 
   return (
