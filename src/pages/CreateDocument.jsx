@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "../context/useAuth";
 import { Link, useNavigate } from "react-router-dom";
-//import { db } from "../firebase/firebase";
-//import { collection, addDoc, Timestamp } from "firebase/firestore";
+import { db } from "../firebase/firebase";
+import { collection, addDoc, Timestamp } from "firebase/firestore";
 
 const CreateDocument = () => {
   const [formData, setFormData] = useState({
@@ -52,7 +52,7 @@ const CreateDocument = () => {
     if (!user) {
       return navigate("/login");
     }
-  }, [user]);
+  }, [user,navigate]);
 
   return (
     <div className="max-w-4xl mx-auto bg-white rounded">
