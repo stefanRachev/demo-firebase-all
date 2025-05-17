@@ -3,6 +3,7 @@ import { useAuth } from "../context/useAuth";
 import { Link, useNavigate } from "react-router-dom";
 import { db } from "../firebase/firebase";
 import { collection, addDoc, Timestamp } from "firebase/firestore";
+import LoadingScreen from "../components/LoadingScreen";
 
 const CreateDocument = () => {
   const [formData, setFormData] = useState({
@@ -15,7 +16,17 @@ const CreateDocument = () => {
   const { user, loading } = useAuth();
 
   const navigate = useNavigate();
- 
+
+  useEffect(() => {
+    if (!loading && !user) {
+      navigate("/login");
+    }
+  }, [user, loading, navigate]);
+
+  if (loading) {
+    return <LoadingScreen />;
+  }
+  
   const handleChangeForm = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -47,11 +58,6 @@ const CreateDocument = () => {
       setError(error.message);
     }
   };
-
-  useEffect(() => {
-    if (loading) return; 
-    if (!user) navigate("/login");
-  }, [user, loading, navigate]);
 
   return (
     <div className="max-w-4xl mx-auto bg-white rounded">
