@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/useAuth";
 
 const Register = () => {
-  const { register } = useAuth(); 
+  const { register } = useAuth();
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -46,8 +46,7 @@ const Register = () => {
     }
 
     try {
-
-      await register(email, password);
+      await register(email, password, username);
 
       setError("");
       setFormData({

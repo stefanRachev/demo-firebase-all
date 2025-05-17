@@ -14,7 +14,7 @@ const Header = () => {
       console.log("User status changed:", currentUser);
     });
 
-    return () => unsubscribe(); 
+    return () => unsubscribe();
   }, [auth]);
 
   const handleLogout = async () => {
@@ -41,12 +41,16 @@ const Header = () => {
         </div>
 
         <nav
-          className={`w-full md:w-auto ${menuOpen ? "block" : "hidden"} md:block`}
+          className={`w-full md:w-auto ${
+            menuOpen ? "block" : "hidden"
+          } md:block`}
         >
           <div className="flex flex-col md:flex-row md:space-x-4 space-y-2 md:space-y-0 mt-2 md:mt-0">
             <NavLink
               to="/"
-              className={({ isActive }) => (isActive ? "underline font-bold" : "")}
+              className={({ isActive }) =>
+                isActive ? "underline font-bold" : ""
+              }
               onClick={() => setMenuOpen(false)}
             >
               Home
@@ -54,7 +58,9 @@ const Header = () => {
 
             <NavLink
               to="/comments"
-              className={({ isActive }) => (isActive ? "underline font-bold" : "")}
+              className={({ isActive }) =>
+                isActive ? "underline font-bold" : ""
+              }
               onClick={() => setMenuOpen(false)}
             >
               Comments
@@ -85,6 +91,9 @@ const Header = () => {
 
             {user && (
               <>
+                <span className="font-semibold">
+                  Hello, {user.displayName || "Guest"}!
+                </span>
                 <NavLink
                   to="/dashboard"
                   className={({ isActive }) =>

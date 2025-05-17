@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "firebase/auth";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged ,updateProfile } from "firebase/auth";
 import { useState, useEffect } from "react";
 import { AuthContext } from "./AuthContext";
 import { auth } from "../firebase/firebase"
@@ -14,9 +14,13 @@ export const AuthProvider = ({ children }) => {
     return () => unsubscribe();
   }, []);
 
-  const register = async (email, password) => {
+  const register = async (email, password,username) => {
     try {
       const result = await createUserWithEmailAndPassword(auth, email, password);
+
+      await updateProfile(result.user, {
+        displayName: username,
+      });
       return result;
     } catch (error) {
       console.error("Registration error:", error);
