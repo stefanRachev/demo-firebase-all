@@ -4,6 +4,7 @@ import Register from "../pages/Register";
 import NoFound from "../pages/NoFound";
 import Home from "../pages/Home";
 import Login from "../pages/Login";
+import CreateDocument from "../pages/CreateDocument";
 
 const Content = () => {
   return (
@@ -11,7 +12,7 @@ const Content = () => {
       <Route path="/" element={<Home />} />
       <Route path="/register" element={<Register />} />
       <Route path="/login" element={<Login />} />
-
+      <Route path="/create-new-document" element={<CreateDocument />} />
       <Route path="*" element={<NoFound />} />
     </Routes>
   );
