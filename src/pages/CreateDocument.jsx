@@ -12,10 +12,10 @@ const CreateDocument = () => {
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
 
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
 
   const navigate = useNavigate();
-
+ 
   const handleChangeForm = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -49,10 +49,9 @@ const CreateDocument = () => {
   };
 
   useEffect(() => {
-    if (!user) {
-      return navigate("/login");
-    }
-  }, [user,navigate]);
+    if (loading) return; 
+    if (!user) navigate("/login");
+  }, [user, loading, navigate]);
 
   return (
     <div className="max-w-4xl mx-auto bg-white rounded">
