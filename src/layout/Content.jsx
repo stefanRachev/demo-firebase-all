@@ -5,6 +5,8 @@ import NoFound from "../pages/NoFound";
 import Home from "../pages/Home";
 import Login from "../pages/Login";
 import CreateDocument from "../pages/CreateDocument";
+import ViewAllDocuments from "../pages/ViewAllDocuments";
+
 
 const Content = () => {
   return (
@@ -13,6 +15,7 @@ const Content = () => {
       <Route path="/register" element={<Register />} />
       <Route path="/login" element={<Login />} />
       <Route path="/create-new-document" element={<CreateDocument />} />
+      <Route path="/view-all-documents" element={<ViewAllDocuments />} />
       <Route path="*" element={<NoFound />} />
     </Routes>
   );
