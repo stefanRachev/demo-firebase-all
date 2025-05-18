@@ -40,8 +40,7 @@ const Login = () => {
 
     try {
       const userCredential = await login(email, password);
-      console.log("Logged in user:", userCredential.user);
-
+      
       setFormData({ email: "", password: "" });
       navigate("/");
     } catch (error) {

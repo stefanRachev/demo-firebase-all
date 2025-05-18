@@ -26,6 +26,8 @@ const CreateDocument = () => {
   if (loading) {
     return <LoadingScreen />;
   }
+ 
+  
   
   const handleChangeForm = (e) => {
     const { name, value } = e.target;
@@ -43,6 +45,7 @@ const CreateDocument = () => {
 
       const docRef = await addDoc(collection(db, "documents"), {
         userId: user.uid,
+        author: user.displayName || "Anonymous",
         title: title.trim(),
         content: content.trim(),
         createdAt: Timestamp.now(),
