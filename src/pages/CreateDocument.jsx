@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useAuth } from "../context/useAuth";
 import { Link, useNavigate } from "react-router-dom";
 import { db } from "../firebase/firebase";
-import { collection, addDoc, Timestamp } from "firebase/firestore";
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import LoadingScreen from "../components/LoadingScreen";
 
 const CreateDocument = () => {
@@ -26,9 +26,9 @@ const CreateDocument = () => {
   if (loading) {
     return <LoadingScreen />;
   }
- 
-  
-  
+
+
+
   const handleChangeForm = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -48,7 +48,7 @@ const CreateDocument = () => {
         author: user.displayName || "Anonymous",
         title: title.trim(),
         content: content.trim(),
-        createdAt: Timestamp.now(),
+        createdAt: serverTimestamp(),
       });
 
       setMessage("Document created successfully!");
