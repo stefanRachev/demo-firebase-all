@@ -78,13 +78,6 @@ const ViewAllDocuments = () => {
                 updatedAt: serverTimestamp(),
             });
 
-            // setDocuments((prevDocs) =>
-            //     prevDocs.map((doc) =>
-            //         doc.id === id
-            //             ? { ...doc, title: currentDoc.title, content: currentDoc.content  }
-            //             : doc
-            //     )
-            // );
             const snapshot = await getDocs(collection(db, "documents"));
             const docsData = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
             setDocuments(docsData)
