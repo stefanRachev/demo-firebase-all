@@ -1,8 +1,33 @@
-# React + Vite
+React + Vite Document App (Demo)
+This is a demo project built with React and Vite, showcasing basic document management functionality using Firebase (Firestore) as the backend.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+The main features of this demo include:
 
-Currently, two official plugins are available:
+🔧 Technologies Used
+React (with hooks and context)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Vite (for fast dev experience)
+
+Firebase Firestore (for storing and syncing documents)
+
+React Router (for routing between pages)
+
+Custom search and filtering
+
+Minimal design with focus on functionality
+
+🧩 Functionality
+✅ Create, read, update and delete (CRUD) documents
+
+✅ Each user sees only their own documents
+
+✅ Real-time sync with Firestore
+
+✅ Search page to filter documents by title (case-insensitive)
+
+✅ Sorting and display of documents based on updatedAt timestamps
+
+✅ Instant UI updates after editing, even before Firestore sync completes
+
+✅ Basic error handling and validation
+
