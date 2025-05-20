@@ -6,6 +6,8 @@ import Home from "../pages/Home";
 import Login from "../pages/Login";
 import CreateDocument from "../pages/CreateDocument";
 import ViewAllDocuments from "../pages/ViewAllDocuments";
+import Search from "../pages/Search";
+
 
 
 const Content = () => {
@@ -16,6 +18,7 @@ const Content = () => {
       <Route path="/login" element={<Login />} />
       <Route path="/create-new-document" element={<CreateDocument />} />
       <Route path="/view-all-documents" element={<ViewAllDocuments />} />
+      <Route path="/search-document" element={<Search />} />
       <Route path="*" element={<NoFound />} />
     </Routes>
   );
